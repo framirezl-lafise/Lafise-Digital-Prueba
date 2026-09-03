@@ -1,35 +1,68 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import { StyleSheet } from 'react-native';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { LocalImage } from '@/components/ui/local-image';
+import { images } from '@/constants/images';
+import { palette } from '@/constants/theme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
+        tabBarActiveTintColor: palette.primary,
+        tabBarInactiveTintColor: palette.textMuted,
+        tabBarLabelStyle: styles.label,
+        tabBarStyle: styles.bar,
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Inicio',
+          tabBarIcon: ({ focused }) => (
+            <LocalImage source={images.homeTab} style={[styles.icon, !focused && styles.dim]} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="operaciones"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Operaciones',
+          tabBarIcon: ({ focused }) => (
+            <LocalImage source={images.operationsTab} style={[styles.icon, !focused && styles.dim]} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="productos"
+        options={{
+          title: 'Productos',
+          tabBarIcon: ({ focused }) => (
+            <LocalImage source={images.productsTab} style={[styles.icon, !focused && styles.dim]} />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  bar: {
+    height: 68,
+    paddingTop: 8,
+    paddingBottom: 10,
+    backgroundColor: palette.surface,
+    borderTopColor: palette.border,
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  icon: {
+    width: 22,
+    height: 22,
+  },
+  dim: {
+    opacity: 0.45,
+  },
+});

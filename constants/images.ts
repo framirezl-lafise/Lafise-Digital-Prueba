@@ -1,0 +1,15 @@
+export const images = {
+  logo: require('@/assets/images/brand/logo-lafise.svg'),
+  avatar: require('@/assets/images/avatars/persona-2.jpg'),
+  homeBackground: require('@/assets/images/cards/fondo-verde.svg'),
+  successCheck: require('@/assets/icons/icon-envio-exito.svg'),
+  transfer: require('@/assets/icons/icon-transferir-dinero.svg'),
+  payService: require('@/assets/icons/icon-pagar-servicio.svg'),
+  withdraw: require('@/assets/icons/icon-retiro-sin-tarjeta.svg'),
+  send: require('@/assets/icons/icon-flecha-cuenta.svg'),
+  payroll: require('@/assets/icons/icon-arrow-down.svg'),
+  homeTab: require('@/assets/icons/icon-inicio.svg'),
+  operationsTab: require('@/assets/icons/icon-operaciones.svg'),
+  productsTab: require('@/assets/icons/icon-productos.svg'),
+  edit: require('@/assets/icons/icon-edit.svg'),
+} as const;
