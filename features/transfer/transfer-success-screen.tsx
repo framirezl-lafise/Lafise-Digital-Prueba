@@ -2,6 +2,7 @@ import { Redirect, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { AppShell } from '@/components/layout/app-shell';
+import { ScreenFooter } from '@/components/layout/screen-footer';
 import { AppButton } from '@/components/ui/app-button';
 import { LocalImage } from '@/components/ui/local-image';
 import { images } from '@/constants/images';
@@ -42,9 +43,9 @@ export function TransferSuccessScreen() {
         <SummaryRow label="Cuenta utilizada para el envío" value={draft.originAccount} />
       </View>
 
-      <View style={styles.footer}>
+      <ScreenFooter>
         <AppButton label="Volver al inicio" onPress={goHome} />
-      </View>
+      </ScreenFooter>
     </AppShell>
   );
 }
@@ -108,9 +109,5 @@ const styles = StyleSheet.create({
     color: palette.text,
     fontSize: 16,
     fontWeight: '600',
-  },
-  footer: {
-    paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.xl,
   },
 });

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
 
 import { AppShell } from '@/components/layout/app-shell';
+import { ScreenFooter } from '@/components/layout/screen-footer';
 import { StackHeader } from '@/components/layout/stack-header';
 import { AppButton } from '@/components/ui/app-button';
 import { AppTextField } from '@/components/ui/app-text-field';
@@ -76,9 +77,9 @@ export function TransferFormScreen() {
             />
           </View>
         </View>
-        <View style={styles.footer}>
+        <ScreenFooter>
           <AppButton label="Enviar" disabled={!canSubmit} onPress={onSubmit} />
-        </View>
+        </ScreenFooter>
       </KeyboardAvoidingView>
     </AppShell>
   );
@@ -105,9 +106,5 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     color: palette.textSecondary,
-  },
-  footer: {
-    paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.xl,
   },
 });
