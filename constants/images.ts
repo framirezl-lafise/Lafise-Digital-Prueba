@@ -3,6 +3,7 @@ export const images = {
   avatar: require('@/assets/images/avatars/persona-2.jpg'),
   homeBackground: require('@/assets/images/cards/fondo-verde.svg'),
   successCheck: require('@/assets/icons/icon-envio-exito.svg'),
+  successGlow: require('@/assets/icons/ellipse-degradado.svg'),
   transfer: require('@/assets/icons/icon-transferir-dinero.svg'),
   payService: require('@/assets/icons/icon-pagar-servicio.svg'),
   withdraw: require('@/assets/icons/icon-retiro-sin-tarjeta.svg'),
