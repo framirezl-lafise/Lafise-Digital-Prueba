@@ -5,7 +5,7 @@ export const CURRENT_USER = {
 export const SAVINGS_ACCOUNT = {
   label: 'Cuenta de ahorro',
   number: '1134948394',
-  balance: 7500,
+  balance: 12000,
 } as const;
 
 export const ORIGIN_ACCOUNT_NUMBER = SAVINGS_ACCOUNT.number;

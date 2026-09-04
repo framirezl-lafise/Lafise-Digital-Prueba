@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-import { ORIGIN_ACCOUNT_NUMBER } from '@/constants/accounts';
+import { ORIGIN_ACCOUNT_NUMBER, SAVINGS_ACCOUNT } from '@/constants/accounts';
 import type { TransferDraft } from '@/types/banking';
-import { isValidAccountNumber } from '@/utils/account-number';
+import { isValidAccountNumber, normalizeAccountNumber } from '@/utils/account-number';
 
 type TransferState = {
   draft: TransferDraft | null;
@@ -16,13 +16,17 @@ export const useTransferStore = create<TransferState>((set) => ({
   draft: null,
   completedAt: null,
   saveDraft: ({ destinationAccount, amount }) => {
-    if (!isValidAccountNumber(destinationAccount) || amount <= 0) {
+    if (
+      !isValidAccountNumber(destinationAccount) ||
+      amount <= 0 ||
+      amount > SAVINGS_ACCOUNT.balance
+    ) {
       return;
     }
 
     set({
       draft: {
-        destinationAccount,
+        destinationAccount: normalizeAccountNumber(destinationAccount),
         amount,
         originAccount: ORIGIN_ACCOUNT_NUMBER,
       },

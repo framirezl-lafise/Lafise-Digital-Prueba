@@ -7,12 +7,13 @@ import { ScreenFooter } from '@/components/layout/screen-footer';
 import { StackHeader } from '@/components/layout/stack-header';
 import { AppButton } from '@/components/ui/app-button';
 import { AppTextField } from '@/components/ui/app-text-field';
+import { SAVINGS_ACCOUNT } from '@/constants/accounts';
 import { appRoutes } from '@/constants/routes';
 import { palette, spacing } from '@/constants/theme';
 import { useTransferStore } from '@/store/transfer-store';
-import { normalizeAccountNumber } from '@/utils/account-number';
+import { ACCOUNT_MAX_DIGITS, isValidAccountNumber, limitAccountDigits } from '@/utils/account-number';
 import { formatAmountInput, parseCordobaAmount } from '@/utils/currency';
-import { canSubmitTransfer } from '@/utils/transfer';
+import { canSubmitTransfer, exceedsAvailableBalance } from '@/utils/transfer';
 
 export function TransferFormScreen() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export function TransferFormScreen() {
 
   const [accountNumber, setAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
+  const [accountTouched, setAccountTouched] = useState(false);
 
   useEffect(() => {
     if (!draft) {
@@ -31,16 +33,19 @@ export function TransferFormScreen() {
     setAmount(formatAmountInput(String(draft.amount)));
   }, [draft]);
 
-  const canSubmit = canSubmitTransfer(accountNumber, amount);
+  const showAccountError = accountTouched && !isValidAccountNumber(accountNumber);
+  const showAmountError = exceedsAvailableBalance(amount, SAVINGS_ACCOUNT.balance);
+  const canSubmit = canSubmitTransfer(accountNumber, amount, SAVINGS_ACCOUNT.balance);
 
   function onSubmit() {
+    setAccountTouched(true);
     const parsedAmount = parseCordobaAmount(amount);
-    if (!parsedAmount) {
+    if (!canSubmit || !parsedAmount) {
       return;
     }
 
     saveDraft({
-      destinationAccount: normalizeAccountNumber(accountNumber),
+      destinationAccount: accountNumber,
       amount: parsedAmount,
     });
     router.push(appRoutes.confirm);
@@ -59,11 +64,20 @@ export function TransferFormScreen() {
             <Text style={styles.label}>Ingresa el número de cuenta</Text>
             <AppTextField
               value={accountNumber}
-              onChangeText={(value) => setAccountNumber(normalizeAccountNumber(value))}
+              onChangeText={(value) => {
+                setAccountTouched(true);
+                setAccountNumber(limitAccountDigits(value));
+              }}
+              onBlur={() => setAccountTouched(true)}
               placeholder="N. de cuenta"
               keyboardType="number-pad"
+              maxLength={ACCOUNT_MAX_DIGITS}
               showEditIcon={accountNumber.length > 0}
+              error={showAccountError}
             />
+            {showAccountError ? (
+              <Text style={styles.error}>Tiene que ingresar un numero de Cuenta valido</Text>
+            ) : null}
           </View>
 
           <View style={styles.field}>
@@ -74,7 +88,11 @@ export function TransferFormScreen() {
               placeholder="C$0"
               keyboardType="number-pad"
               showEditIcon={amount.length > 0}
+              error={showAmountError}
             />
+            {showAmountError ? (
+              <Text style={styles.error}>Monto enviar mayor que el saldo disponible</Text>
+            ) : null}
           </View>
         </View>
         <ScreenFooter>
@@ -106,5 +124,10 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     color: palette.textSecondary,
+  },
+  error: {
+    color: palette.danger,
+    fontSize: 13,
+    marginTop: spacing.xs,
   },
 });

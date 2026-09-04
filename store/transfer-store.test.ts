@@ -21,8 +21,17 @@ describe('transfer store', () => {
 
   it('ignores invalid drafts', () => {
     useTransferStore.getState().saveDraft({
-      destinationAccount: '12',
+      destinationAccount: '1234567890',
       amount: 1000,
+    });
+
+    expect(useTransferStore.getState().draft).toBeNull();
+  });
+
+  it('ignores amounts greater than the available balance', () => {
+    useTransferStore.getState().saveDraft({
+      destinationAccount: '130492890',
+      amount: 12_001,
     });
 
     expect(useTransferStore.getState().draft).toBeNull();

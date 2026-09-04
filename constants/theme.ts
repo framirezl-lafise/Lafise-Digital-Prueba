@@ -12,6 +12,7 @@ export const palette = {
   background: '#FFFFFF',
   surface: '#FFFFFF',
   border: '#E3E3E3',
+  danger: '#D32F2F',
   disabled: '#E8E8E8',
   disabledText: '#A3A3A3',
   confirmIconBg: '#D7ECFA',

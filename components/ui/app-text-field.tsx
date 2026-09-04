@@ -6,14 +6,20 @@ import { palette, radius, spacing } from '@/constants/theme';
 
 type AppTextFieldProps = TextInputProps & {
   showEditIcon?: boolean;
+  error?: boolean;
 };
 
-export function AppTextField({ showEditIcon, style, ...props }: AppTextFieldProps) {
+export function AppTextField({ showEditIcon, error, style, ...props }: AppTextFieldProps) {
   return (
     <View style={styles.wrap}>
       <TextInput
         placeholderTextColor={palette.textMuted}
-        style={[styles.input, showEditIcon ? styles.inputWithIcon : null, style]}
+        style={[
+          styles.input,
+          showEditIcon ? styles.inputWithIcon : null,
+          error ? styles.inputError : null,
+          style,
+        ]}
         {...props}
       />
       {showEditIcon ? (
@@ -42,6 +48,9 @@ const styles = StyleSheet.create({
   },
   inputWithIcon: {
     paddingRight: 44,
+  },
+  inputError: {
+    borderColor: palette.danger,
   },
   icon: {
     position: 'absolute',
