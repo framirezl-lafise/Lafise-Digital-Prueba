@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useVideoPlayer, VideoView } from 'expo-video';
 
 import { AppShell } from '@/components/layout/app-shell';
@@ -8,6 +8,14 @@ import { StackHeader } from '@/components/layout/stack-header';
 import { COMING_SOON_COPY } from '@/constants/coming-soon';
 import { images } from '@/constants/images';
 import { layout, palette, spacing } from '@/constants/theme';
+
+function runIfPlayerAlive(action: () => void) {
+  try {
+    action();
+  } catch {
+    // useVideoPlayer already released the native shared object on unmount.
+  }
+}
 
 export function ComingSoonScreen() {
   const router = useRouter();
@@ -20,9 +28,11 @@ export function ComingSoonScreen() {
   });
 
   const startLoop = useCallback(() => {
-    player.loop = true;
-    player.muted = true;
-    player.play();
+    runIfPlayerAlive(() => {
+      player.loop = true;
+      player.muted = true;
+      player.play();
+    });
   }, [player]);
 
   useEffect(() => {
@@ -35,24 +45,16 @@ export function ComingSoonScreen() {
     });
 
     const endedSub = player.addListener('playToEnd', () => {
-      player.replay();
+      runIfPlayerAlive(() => {
+        player.replay();
+      });
     });
 
     return () => {
       statusSub.remove();
       endedSub.remove();
-      player.pause();
     };
   }, [player, startLoop]);
-
-  useFocusEffect(
-    useCallback(() => {
-      startLoop();
-      return () => {
-        player.pause();
-      };
-    }, [player, startLoop]),
-  );
 
   return (
     <AppShell backgroundColor={palette.comingSoon}>
