@@ -1,50 +1,183 @@
-# Welcome to your Expo app 👋
+# LAFISE Digital
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Prototipo de banca digital para la prueba técnica de LAFISE. La aplicación cubre el inicio del cliente, el flujo completo de transferencia en córdobas y pantallas de reserva para el resto de operaciones rápidas. Corre sobre **Expo SDK 54** y se evalúa de forma nativa con Expo Go, o en el navegador como alternativa.
 
-## Get started
+Este documento sirve para clonar, levantar y entender el proyecto sin reconstruir la arquitectura a partir del código.
 
-1. Install dependencies
+## Cómo ejecutarlo
 
-   ```bash
-   npm install
-   ```
+Hay dos caminos. El primero es el esperado para la prueba (teléfono físico + Expo Go). El segundo existe solo si el teléfono no carga el bundler.
 
-2. Start the app
+### Requisitos
+
+| Requisito            | Detalle                                            |
+| -------------------- | -------------------------------------------------- |
+| Node.js              | 20 LTS o superior (requerido por Expo SDK 54)      |
+| Gestor               | npm (incluido con Node)                            |
+| Teléfono (opción 1)  | Android con Expo Go **SDK 54**                     |
+| Red (opción 1)       | La PC y el teléfono en la **misma red Wi-Fi**      |
+| Navegador (opción 2) | Google Chrome, con la extensión indicada más abajo |
+
+Instalación del proyecto:
+
+```bash
+git clone <url-del-repositorio>
+cd prueba-lafise-digital
+npm install
+```
+
+### Opción 1 (recomendada): Expo Go SDK 54 en el teléfono
+
+1. En el teléfono, abra [https://expo.dev/go](https://expo.dev/go).
+2. Descargue e instale el **APK de Expo Go correspondiente a SDK 54**. No use una versión de Expo Go de otro SDK: el proyecto está fijado a Expo 54 y el cliente tiene que coincidir.
+3. Confirme que la PC y el teléfono están en la **misma red**. Si cada uno usa un Wi-Fi distinto, o el teléfono está en datos móviles, el QR no va a cargar el bundler.
+4. En la PC, desde la raíz del repo:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+5. Abra Expo Go en el teléfono y **escanee el código QR** que imprime la terminal.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Resultado esperado: la app arranca en Inicio, con el saludo, la cuenta de ahorro y las operaciones rápidas.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Si el QR no conecta, verifique primero la red compartida y que el APK sea SDK 54. No mezcle esa falla con la opción web: son entornos distintos.
 
-## Get a fresh project
+### Opción 2 (respaldo): localhost en Google Chrome
 
-When you're ready, run:
+Use esta vía solo si Expo Go no carga. El simulador del navegador no sustituye el comportamiento nativo (video, haptics, transición de éxito), pero permite recorrer pantallas y layout.
 
-```bash
-npm run reset-project
+1. Instale **Google Chrome**. Otros navegadores no están soportados para esta vía.
+2. Instale en Chrome la extensión **Simulador de teléfono móvil - prueba de sitio responsive**:
+
+   [https://chromewebstore.google.com/detail/ckejmhbmlajgoklhgbapkiccekfoccmk?utm_source=item-share-cb](https://chromewebstore.google.com/detail/ckejmhbmlajgoklhgbapkiccekfoccmk?utm_source=item-share-cb)
+
+3. En la raíz del repo:
+
+   ```bash
+   npx expo start
+   ```
+
+4. En la terminal de Expo, pulse **`w`** para abrir la app en el navegador (localhost).
+5. En Chrome, active la extensión y **seleccione un dispositivo mobile** (por ejemplo un iPhone o un Android de gama media). Revise el flujo en ese viewport, no en escritorio.
+
+La combinación correcta es: Chrome + extensión + tecla `w`. Abrir el puerto en Edge, Firefox o sin el simulador no es el entorno pedido.
+
+### Comandos útiles
+
+| Comando          | Uso                                    |
+| ---------------- | -------------------------------------- |
+| `npx expo start` | Bundler. QR para Expo Go; `w` para web |
+| `npm test`       | Jest, una sola pasada                  |
+| `npm run lint`   | ESLint con la config de Expo           |
+
+## Qué incluye el prototipo
+
+La app no habla con un backend. Los saldos, el usuario y las cuentas viven en constantes. El valor de la prueba está en el flujo, la validación, la navegación y la UI.
+
+| Área                                                 | Comportamiento                                                                       |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Inicio                                               | Saludo, cuenta de ahorro (C$ 12,000), pago quincenal y cuatro operaciones rápidas    |
+| Transferir dinero                                    | Formulario de cuenta destino y monto, confirmación, animación de éxito y comprobante |
+| Pagar servicio, Recargar celular, Retiro sin tarjeta | Navegan a una pantalla de «próximamente» con video en loop                           |
+| Operaciones / Productos (tabs)                       | Placeholders. El producto activo y la transferencia salen de Inicio                  |
+
+Flujo de transferencia:
+
+1. Inicio, `Transferir Dinero` (también el icono de envío en la tarjeta de la cuenta).
+2. Número de cuenta (hasta 9 dígitos) y monto en córdobas, sin exceder el saldo disponible.
+3. Confirmación de origen, destino y total.
+4. Transición visual del check verde hacia la pantalla de éxito (se omite si el sistema pide reducir movimiento).
+5. Comprobante con fecha y detalle del envío.
+
+La cuenta de origen es `1134948394`. El estado del draft se limpia al volver a entrar a transferir desde Inicio.
+
+## Stack
+
+| Capa              | Tecnología                         | Versión de referencia    |
+| ----------------- | ---------------------------------- | ------------------------ |
+| Runtime           | Expo                               | SDK 54 (`expo ~54.0.36`) |
+| UI nativa         | React Native                       | 0.81.5                   |
+| UI                | React                              | 19.1.0                   |
+| Lenguaje          | TypeScript                         | strict                   |
+| Navegación        | Expo Router (file-based)           | ~6.0.24                  |
+| Estado de negocio | Zustand                            | ^5.0.15                  |
+| Imágenes          | expo-image                         | ~3.0.11                  |
+| Video             | expo-video                         | ~3.0.16                  |
+| Animación         | react-native-reanimated            | ~4.1.1                   |
+| Pruebas           | Jest + jest-expo + Testing Library | Jest 29                  |
+
+New Architecture está activa (`newArchEnabled`). Las rutas tipadas y React Compiler están habilitados en `app.json`.
+
+El alias `@/` apunta a la raíz del repo (`tsconfig.json`).
+
+## Cómo se maneja el estado
+
+No hay Redux ni React Query en el runtime. El estado se parte en tres niveles, cada uno con un motivo distinto.
+
+| Nivel                     | Dónde vive                                                                   | Qué guarda                                                              | Ciclo de vida                                                                                                                        |
+| ------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Datos de dominio mock     | `constants/accounts.ts`                                                      | Usuario, cuenta, saldo, origen                                          | Estático. No se muta.                                                                                                                |
+| Borrador de transferencia | `store/transfer-store.ts` (Zustand)                                          | Destino, monto, origen, marca de completado                             | En memoria. `saveDraft` valida cuenta y saldo antes de escribir. `reset` al abrir el flujo desde Inicio.                             |
+| Transición de éxito       | `features/transfer/success-transition/success-transition-store.ts` (Zustand) | Si la animación corre, ids de corrida, geometría del check y del título | En memoria, acotado al stack de `/transfer`. El overlay vive en `app/transfer/_layout.tsx` para sobrevivir el `router.push` a éxito. |
+| Campos del formulario     | `useState` en `TransferFormScreen`                                           | Texto de cuenta y monto mientras se edita                               | Local al screen. Se hidrata desde el draft si el usuario vuelve atrás.                                                               |
+
+Reglas que el store de transferencia no deja pasar: cuenta vacía o no numérica, monto menor o igual a cero, monto mayor al saldo (`SAVINGS_ACCOUNT.balance`). La misma regla se aplica en UI (`utils/transfer.ts`, `utils/account-number.ts`, `utils/currency.ts`).
+
+No hay persistencia en disco. Cerrar la app pierde el draft. Eso es intencional: el prototipo no simula sesión ni historial remoto.
+
+## Arquitectura de carpetas
+
+```text
+app/                 Rutas (Expo Router). Orquestan screens, no contienen la UI de negocio.
+  (tabs)/            Inicio, Operaciones, Productos
+  transfer/          Formulario, confirmación, éxito + overlay de transición
+  coming-soon.tsx    Placeholder de funcionalidades no entregadas
+features/            Pantallas y lógica por dominio (home, transfer, coming-soon)
+store/               Zustand del draft de transferencia
+components/          Shell, header, botones, campos, imagen local
+constants/           Cuentas mock, paleta, rutas, copy, assets
+utils/               Cuenta, moneda, reglas de envío, safe area
+types/               Contratos TypeScript del dominio
+assets/              Marca, iconos y video de coming-soon
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Las rutas públicas están centralizadas en `constants/routes.ts` (`appRoutes`). Los screens de `app/` delegan en `features/` (patrón contenedor / presentación).
 
-## Learn more
+## Pantallas y navegación
 
-To learn more about developing your project with Expo, look at the following resources:
+```text
+(tabs)
+  Inicio                 / (tabs)
+  Operaciones            /operaciones
+  Productos              /productos
+transfer
+  Formulario             /transfer
+  Confirmación           /transfer/confirm
+  Éxito                  /transfer/success
+coming-soon              /coming-soon
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+`coming-soon` reproduce en loop el video `assets/videos/chica-lafise-coming-soon-v2.mp4`. El fondo de esa pantalla es `#F2F5F7` para que el clip encaje sin costura.
 
-## Join the community
+## Pruebas
 
-Join our community of developers creating universal apps.
+`npm test` corre Jest una vez (sin watch). Cubre validación de cuenta y monto, formato de moneda, el store de transferencia, geometría/timeline de la transición de éxito y el copy de coming-soon.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+No hay suite E2E. La verificación del flujo visual se hace en Expo Go o en Chrome con el simulador.
+
+## Alcance fuera de esta entrega
+
+- Autenticación, biometría o PIN
+- API bancaria real
+- Pago de servicios, recarga y retiro (solo placeholder)
+- Detalle de productos en el tab Productos
+
+## Verificación rápida
+
+- [ ] `npm install` termina sin error
+- [ ] Opción 1: Expo Go SDK 54 instalado desde [expo.dev/go](https://expo.dev/go), misma red, `npx expo start`, QR abre Inicio
+- [ ] Opción 2 (solo si falla la 1): Chrome + extensión + `npx expo start` + `w`, viewport mobile
+- [ ] Transferencia válida llega a confirmación y a éxito
+- [ ] Monto mayor a C$ 12,000 no deja continuar
+- [ ] Pagar servicio / Recargar / Retiro abren coming-soon
