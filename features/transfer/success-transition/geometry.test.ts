@@ -1,7 +1,9 @@
 import {
   centeredCheckFrame,
   centeredTitleFrame,
+  coverDiameter,
   coverScale,
+  iconScaleInCover,
   successHeroCheckFrame,
   successHeroTitleFrame,
   translationBetween,
@@ -17,6 +19,12 @@ describe('success transition geometry', () => {
     const covered = (SUCCESS_CHECK_SIZE / 2) * scale;
 
     expect(covered).toBeGreaterThan(Math.hypot(SCREEN.width / 2, SCREEN.height / 2));
+    expect(coverDiameter(SCREEN.width, SCREEN.height)).toBeGreaterThan(
+      Math.hypot(SCREEN.width, SCREEN.height),
+    );
+    expect(iconScaleInCover(SCREEN.width, SCREEN.height) * coverDiameter(SCREEN.width, SCREEN.height)).toBeCloseTo(
+      SUCCESS_CHECK_SIZE,
+    );
   });
 
   it('keeps the check in the screen center during the cover', () => {

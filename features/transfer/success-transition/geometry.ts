@@ -20,9 +20,19 @@ export function coverScale(
   screenHeight: number,
   circleSize: number = SUCCESS_CHECK_SIZE,
 ): number {
-  const radius = circleSize / 2;
-  const distanceToCorner = Math.hypot(screenWidth / 2, screenHeight / 2);
-  return distanceToCorner / radius + 0.08;
+  return coverDiameter(screenWidth, screenHeight) / circleSize;
+}
+
+export function coverDiameter(screenWidth: number, screenHeight: number): number {
+  return Math.hypot(screenWidth, screenHeight) + 32;
+}
+
+export function iconScaleInCover(
+  screenWidth: number,
+  screenHeight: number,
+  circleSize: number = SUCCESS_CHECK_SIZE,
+): number {
+  return circleSize / coverDiameter(screenWidth, screenHeight);
 }
 
 export function centeredCheckFrame(

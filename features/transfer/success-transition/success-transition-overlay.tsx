@@ -4,12 +4,13 @@ import { StyleSheet, useWindowDimensions } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { SuccessCheckIcon } from '@/features/transfer/success-transition/success-check-icon';
+import { SuccessCircleTexture } from '@/features/transfer/success-transition/success-circle-texture';
 import {
   SUCCESS_CHECK_SIZE,
   SUCCESS_CIRCLE_COLOR,
 } from '@/features/transfer/success-transition/metrics';
 import { useSuccessTransition } from '@/features/transfer/success-transition/use-success-transition';
-import { centeredCheckFrame, centeredTitleFrame } from '@/features/transfer/success-transition/geometry';
+import { centeredCheckFrame, centeredTitleFrame, coverDiameter } from '@/features/transfer/success-transition/geometry';
 
 const TITLE_FALLBACK = { width: 186, height: 32 };
 
@@ -32,6 +33,11 @@ export function SuccessTransitionOverlay() {
 
   const checkFrame = centeredCheckFrame(width, height);
   const titleFrame = centeredTitleFrame(width, height, titleSize);
+  const discSize = coverDiameter(width, height);
+  const discFrame = {
+    x: (width - discSize) / 2,
+    y: (height - discSize) / 2,
+  };
 
   return (
     <Animated.View
@@ -43,12 +49,17 @@ export function SuccessTransitionOverlay() {
         style={[
           styles.circle,
           {
-            left: checkFrame.x,
-            top: checkFrame.y,
+            left: discFrame.x,
+            top: discFrame.y,
+            width: discSize,
+            height: discSize,
+            borderRadius: discSize / 2,
           },
           circleStyle,
         ]}
-      />
+      >
+        <SuccessCircleTexture size={discSize} animated />
+      </Animated.View>
       <Animated.View
         style={[
           styles.check,
@@ -92,9 +103,7 @@ const styles = StyleSheet.create({
   },
   circle: {
     position: 'absolute',
-    width: SUCCESS_CHECK_SIZE,
-    height: SUCCESS_CHECK_SIZE,
-    borderRadius: SUCCESS_CHECK_SIZE / 2,
+    overflow: 'hidden',
     backgroundColor: SUCCESS_CIRCLE_COLOR,
   },
   check: {

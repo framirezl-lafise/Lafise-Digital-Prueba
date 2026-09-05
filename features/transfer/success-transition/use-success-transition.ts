@@ -18,7 +18,7 @@ import { palette } from '@/constants/theme';
 import {
   centeredCheckFrame,
   centeredTitleFrame,
-  coverScale,
+  iconScaleInCover,
   successHeroCheckFrame,
   successHeroTitleFrame,
   translationBetween,
@@ -130,13 +130,9 @@ export function useSuccessTransition() {
       duration: SUCCESS_TRANSITION_TIMELINE.settleMs,
       easing: Easing.out(Easing.cubic),
     });
-    circleScale.value = withTiming(0.06, {
+    circleScale.value = withTiming(iconScaleInCover(width, height), {
       duration: SUCCESS_TRANSITION_TIMELINE.settleMs,
-      easing: Easing.in(Easing.cubic),
-    });
-    circleOpacity.value = withTiming(0, {
-      duration: SUCCESS_TRANSITION_TIMELINE.settleMs * 0.7,
-      easing: Easing.out(Easing.quad),
+      easing: settleEasing,
     });
     overlayOpacity.value = withDelay(
       SUCCESS_TRANSITION_TIMELINE.settleMs - SUCCESS_TRANSITION_TIMELINE.overlayFadeMs,
@@ -177,15 +173,15 @@ export function useSuccessTransition() {
 
   const play = useCallback(() => {
     resetValues();
-    const cover = coverScale(width, height);
+    const iconScale = iconScaleInCover(width, height);
 
     overlayOpacity.value = withTiming(1, { duration: 140, easing: Easing.out(Easing.quad) });
     circleScale.value = withSequence(
-      withTiming(1, {
+      withTiming(iconScale, {
         duration: SUCCESS_TRANSITION_TIMELINE.appearMs,
         easing: appearEasing,
       }),
-      withTiming(cover, {
+      withTiming(1, {
         duration: SUCCESS_TRANSITION_TIMELINE.expandMs,
         easing: expandEasing,
       }),
@@ -294,7 +290,11 @@ export function useSuccessTransition() {
 
   const circleStyle = useAnimatedStyle(() => ({
     opacity: circleOpacity.value,
-    transform: [{ scale: circleScale.value }],
+    transform: [
+      { translateX: checkTX.value },
+      { translateY: checkTY.value },
+      { scale: circleScale.value },
+    ],
   }));
 
   const checkStyle = useAnimatedStyle(() => ({
