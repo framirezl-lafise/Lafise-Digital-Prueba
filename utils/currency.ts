@@ -1,7 +1,7 @@
-const THOUSANDS = 'en-US';
+const THOUSANDS = "en-US";
 
 export function digitsOnly(value: string): string {
-  return value.replace(/\D/g, '');
+  return value.replace(/\D/g, "");
 }
 
 export function parseCordobaAmount(input: string): number | null {
@@ -31,5 +31,5 @@ export function formatNio(amount: number): string {
 
 export function formatAmountInput(input: string): string {
   const amount = parseCordobaAmount(input);
-  return amount === null ? '' : formatCordobas(amount);
+  return amount === null ? "" : formatCordobas(amount);
 }

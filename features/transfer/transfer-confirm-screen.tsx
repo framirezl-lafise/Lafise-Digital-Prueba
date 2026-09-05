@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { Redirect, useRouter } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { AccessibilityInfo, StyleSheet, Text, View } from 'react-native';
 
 import { AppShell } from '@/components/layout/app-shell';
 import { ScreenFooter } from '@/components/layout/screen-footer';
@@ -8,6 +9,7 @@ import { StackHeader } from '@/components/layout/stack-header';
 import { AppButton } from '@/components/ui/app-button';
 import { appRoutes } from '@/constants/routes';
 import { palette, spacing } from '@/constants/theme';
+import { useSuccessTransitionStore } from '@/features/transfer/success-transition';
 import { useTransferStore } from '@/store/transfer-store';
 import { formatCordobas } from '@/utils/currency';
 
@@ -15,13 +17,20 @@ export function TransferConfirmScreen() {
   const router = useRouter();
   const draft = useTransferStore((state) => state.draft);
   const markCompleted = useTransferStore((state) => state.markCompleted);
+  const startTransition = useSuccessTransitionStore((state) => state.start);
+  const isTransitioning = useSuccessTransitionStore((state) => state.status === 'playing');
 
   if (!draft) {
     return <Redirect href={appRoutes.transfer} />;
   }
 
-  function onConfirm() {
+  async function onConfirm() {
     markCompleted();
+    const reduceMotion = await AccessibilityInfo.isReduceMotionEnabled();
+    if (!reduceMotion) {
+      startTransition();
+    }
+    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
     router.push(appRoutes.success);
   }
 
@@ -48,7 +57,7 @@ export function TransferConfirmScreen() {
         </View>
       </View>
       <ScreenFooter>
-        <AppButton label="Confirmar el envío" onPress={onConfirm} />
+        <AppButton label="Confirmar el envío" onPress={onConfirm} disabled={isTransitioning} />
       </ScreenFooter>
     </AppShell>
   );
