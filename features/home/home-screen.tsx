@@ -28,6 +28,10 @@ export function HomeScreen() {
     router.push(appRoutes.transfer);
   }
 
+  function openComingSoon() {
+    router.push(appRoutes.comingSoon);
+  }
+
   return (
     <View style={styles.root}>
       <LinearGradient colors={[palette.homeStart, palette.homeEnd]} style={StyleSheet.absoluteFill} />
@@ -68,7 +72,7 @@ export function HomeScreen() {
                 <Pressable
                   key={action.key}
                   style={styles.action}
-                  onPress={action.key === 'transfer' ? openTransfer : undefined}
+                  onPress={action.key === 'transfer' ? openTransfer : openComingSoon}
                   accessibilityRole="button"
                   accessibilityLabel={action.label}>
                   <View style={[styles.actionIcon, { backgroundColor: action.background }]}>

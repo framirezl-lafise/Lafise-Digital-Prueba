@@ -5,4 +5,5 @@ export const appRoutes = {
   transfer: '/transfer' as Href,
   confirm: '/transfer/confirm' as Href,
   success: '/transfer/success' as Href,
+  comingSoon: '/coming-soon' as Href,
 };

@@ -10,6 +10,7 @@ export const palette = {
   textMuted: '#8D8D8D',
   textOnPrimary: '#FFFFFF',
   background: '#FFFFFF',
+  comingSoon: '#F2F5F7',
   surface: '#FFFFFF',
   border: '#E3E3E3',
   danger: '#D32F2F',

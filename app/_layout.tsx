@@ -23,6 +23,7 @@ export default function RootLayout() {
           <Stack screenOptions={{ headerShown: false, contentStyle: styles.stack }}>
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="transfer" />
+            <Stack.Screen name="coming-soon" />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>

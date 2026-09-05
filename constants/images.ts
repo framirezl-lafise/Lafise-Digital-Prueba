@@ -13,4 +13,5 @@ export const images = {
   operationsTab: require('@/assets/icons/icon-operaciones.svg'),
   productsTab: require('@/assets/icons/icon-productos.svg'),
   edit: require('@/assets/icons/icon-edit.svg'),
+  comingSoonVideo: require('@/assets/videos/chica-lafise-coming-soon.mp4'),
 } as const;
