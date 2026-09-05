@@ -175,7 +175,7 @@ export function useSuccessTransition() {
     resetValues();
     const iconScale = iconScaleInCover(width, height);
 
-    overlayOpacity.value = withTiming(1, { duration: 140, easing: Easing.out(Easing.quad) });
+    overlayOpacity.value = withTiming(1, { duration: 200, easing: Easing.out(Easing.quad) });
     circleScale.value = withSequence(
       withTiming(iconScale, {
         duration: SUCCESS_TRANSITION_TIMELINE.appearMs,
@@ -187,7 +187,7 @@ export function useSuccessTransition() {
       }),
     );
     checkOpacity.value = withTiming(1, {
-      duration: 420,
+      duration: 560,
       easing: Easing.out(Easing.cubic),
     });
     checkScale.value = withSpring(1, {

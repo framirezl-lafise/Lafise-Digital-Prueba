@@ -32,8 +32,15 @@ describe('success transition timeline', () => {
     expect(overlayFadeStartMs()).toBeLessThan(totalTransitionMs());
   });
 
-  it('keeps the slowed sequence under four and a half seconds', () => {
-    expect(totalTransitionMs()).toBeLessThan(4500);
-    expect(totalTransitionMs()).toBeGreaterThan(3000);
+  it('lets the check rise to the hero without lingering', () => {
+    expect(SUCCESS_TRANSITION_TIMELINE.settleMs).toBe(1500);
+    expect(SUCCESS_TRANSITION_TIMELINE.settleMs).toBeLessThan(
+      SUCCESS_TRANSITION_TIMELINE.expandMs + SUCCESS_TRANSITION_TIMELINE.appearMs,
+    );
+  });
+
+  it('keeps the full sequence under six seconds', () => {
+    expect(totalTransitionMs()).toBeGreaterThan(4000);
+    expect(totalTransitionMs()).toBeLessThan(6000);
   });
 });

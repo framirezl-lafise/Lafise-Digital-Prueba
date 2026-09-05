@@ -1,13 +1,13 @@
 export const SUCCESS_TRANSITION_TIMELINE = {
-  appearMs: 560,
-  expandDelayMs: 560,
-  expandMs: 1100,
-  titleDelayMs: 1480,
-  titleMs: 680,
-  holdMs: 360,
-  settleMs: 1200,
-  overlayFadeMs: 400,
-  contentRevealMs: 900,
+  appearMs: 700,
+  expandDelayMs: 700,
+  expandMs: 1400,
+  titleDelayMs: 1900,
+  titleMs: 800,
+  holdMs: 500,
+  settleMs: 1500,
+  overlayFadeMs: 420,
+  contentRevealMs: 1600,
 } as const;
 
 export type SuccessTransitionTimeline = typeof SUCCESS_TRANSITION_TIMELINE;
