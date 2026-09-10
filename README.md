@@ -166,12 +166,11 @@ coming-soon              /coming-soon
 
 No hay suite E2E. La verificación del flujo visual se hace en Expo Go o en Chrome con el simulador.
 
-## Alcance fuera de esta entrega
+## Cierre de la prueba y trabajo pendiente
 
-- Autenticación, biometría o PIN
-- API bancaria real
-- Pago de servicios, recarga y retiro (solo placeholder)
-- Detalle de productos en el tab Productos
+La entrega funcional la cerre el **sábado 5 de septiembre de 2026**. Lo que está en este repositorio es lo que alcanzó el tiempo de la prueba tomando en cuenta el tiemponde entrega que fue el sabado: flujo de transferencia completo, inicio con operaciones rápidas y pantalla de «próximamente» para el resto.
+
+Lo que me hubiera gustado sumar (Pagar Servicio, Recarga, Retiro, Operaciones, Productos, historial, Supabase, animaciones, dark mode y accesibilidad) está escrito en [PENDIENTES.md](./PENDIENTES.md). No son fallos de lo entregado; son extensiones que el calendario no permitió cerrar.
 
 ## Verificación rápida
 
@@ -181,3 +180,4 @@ No hay suite E2E. La verificación del flujo visual se hace en Expo Go o en Chro
 - [ ] Transferencia válida llega a confirmación y a éxito
 - [ ] Monto mayor a C$ 12,000 no deja continuar
 - [ ] Pagar servicio / Recargar / Retiro abren coming-soon
+- [ ] `npm test` pasa
