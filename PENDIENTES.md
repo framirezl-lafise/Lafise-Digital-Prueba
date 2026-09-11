@@ -1,4 +1,13 @@
-# Entrega y trabajo que quedó pendiente
+<div align="center">
+  <img src="assets/images/brand/icon.png" alt="LAFISE Digital" width="72" />
+
+  <h1>Entrega y trabajo pendiente</h1>
+
+  <p>
+    Complemento del <a href="./README.md">README</a>.<br />
+    Lo que sí entró en la prueba y lo que el calendario no alcanzó a cubrir.
+  </p>
+</div>
 
 La prueba técnica se **La entregue el sábado 5 de septiembre de 2026**. Ese día el prototipo ya cubría el flujo pedido: inicio, transferencia (formulario, confirmación, animación de éxito y comprobante) y una pantalla de reserva para el resto de operaciones rápidas.
 
@@ -16,7 +25,7 @@ Este archivo no es un backlog de producción ni una lista de defectos de la entr
 ## Qué me hubiera gustado entregar
 
 | Idea | Por qué | Qué hay hoy |
-| --- | --- | --- |
+| :--- | :--- | :--- |
 | Secciones de Pagar Servicio, Recarga celular y Retiro sin tarjeta | Las tres acciones ya están en Inicio. Un producto LAFISE las resolvería con el mismo cuidado que la transferencia, no con un placeholder eterno. | Ruta `/coming-soon` y video en loop. |
 | Apartados de Operaciones y Productos | Los tabs existen y casi no cuentan historia. Operaciones debería listar movimiento; Productos, la ficha de cada cuenta. | Textos de apoyo que redirigen a Inicio. |
 | Historial de transacciones realizadas | Cierra el ciclo después del comprobante: fecha, destino, monto y estado de cada envío. | No hay listado. El draft vive en memoria y se pierde al salir. |
