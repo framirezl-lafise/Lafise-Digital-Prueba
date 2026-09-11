@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/images/brand/icon.png" alt="LAFISE Digital" width="72" />
+  <img src="assets/images/brand/readme-banner.png" alt="LAFISE Digital" width="100%" />
 
   <h1>Entrega y trabajo pendiente</h1>
 
