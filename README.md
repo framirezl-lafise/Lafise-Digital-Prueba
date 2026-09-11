@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/images/brand/icon.png" alt="LAFISE Digital" width="88" />
 
-  <h1>LAFISE Digital</h1>
+  <h1>PRUEBA LAFISE DIGITAL</h1>
 
   <p>
     Prototipo de banca digital para la prueba técnica de LAFISE.<br />
