@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/images/brand/icon.png" alt="LAFISE Digital" width="88" />
+  <img src="assets/images/brand/readme-banner.png" alt="LAFISE Digital" width="100%" />
 
   <h1>LAFISE Digital</h1>
 
@@ -41,12 +41,12 @@ Hay dos caminos. El primero es el esperado para la prueba (teléfono físico + E
 
 ### Requisitos
 
-| Requisito | Detalle |
-| :--- | :--- |
-| Node.js | 20 LTS o superior (requerido por Expo SDK 54) |
-| Gestor | npm (incluido con Node) |
-| Teléfono (opción 1) | Android con Expo Go **SDK 54** |
-| Red (opción 1) | La PC y el teléfono en la **misma red Wi-Fi** |
+| Requisito            | Detalle                                            |
+| :------------------- | :------------------------------------------------- |
+| Node.js              | 20 LTS o superior (requerido por Expo SDK 54)      |
+| Gestor               | npm (incluido con Node)                            |
+| Teléfono (opción 1)  | Android con Expo Go **SDK 54**                     |
+| Red (opción 1)       | La PC y el teléfono en la **misma red Wi-Fi**      |
 | Navegador (opción 2) | Google Chrome, con la extensión indicada más abajo |
 
 Instalación del proyecto:
@@ -102,22 +102,22 @@ La combinación correcta es: Chrome + extensión + tecla `w`. Abrir el puerto en
 
 ### Comandos útiles
 
-| Comando | Uso |
-| :--- | :--- |
+| Comando          | Uso                                    |
+| :--------------- | :------------------------------------- |
 | `npx expo start` | Bundler. QR para Expo Go; `w` para web |
-| `npm test` | Jest, una sola pasada |
-| `npm run lint` | ESLint con la config de Expo |
+| `npm test`       | Jest, una sola pasada                  |
+| `npm run lint`   | ESLint con la config de Expo           |
 
 ## Qué incluye el prototipo
 
 La app no habla con un backend. Los saldos, el usuario y las cuentas viven en constantes. El valor de la prueba está en el flujo, la validación, la navegación y la UI.
 
-| Área | Comportamiento |
-| :--- | :--- |
-| Inicio | Saludo, cuenta de ahorro (C$ 12,000), pago quincenal y cuatro operaciones rápidas |
-| Transferir dinero | Formulario de cuenta destino y monto, confirmación, animación de éxito y comprobante |
-| Pagar servicio, Recargar celular, Retiro sin tarjeta | Navegan a una pantalla de «próximamente» con video en loop |
-| Operaciones / Productos (tabs) | Placeholders. El producto activo y la transferencia salen de Inicio |
+| Área                                                 | Comportamiento                                                                       |
+| :--------------------------------------------------- | :----------------------------------------------------------------------------------- |
+| Inicio                                               | Saludo, cuenta de ahorro (C$ 12,000), pago quincenal y cuatro operaciones rápidas    |
+| Transferir dinero                                    | Formulario de cuenta destino y monto, confirmación, animación de éxito y comprobante |
+| Pagar servicio, Recargar celular, Retiro sin tarjeta | Navegan a una pantalla de «próximamente» con video en loop                           |
+| Operaciones / Productos (tabs)                       | Placeholders. El producto activo y la transferencia salen de Inicio                  |
 
 <details>
 <summary><b>Flujo de transferencia</b></summary>
@@ -134,18 +134,18 @@ La cuenta de origen es `1134948394`. El estado del draft se limpia al volver a e
 
 ## Stack
 
-| Capa | Tecnología | Versión de referencia |
-| :--- | :--- | :--- |
-| Runtime | Expo | SDK 54 (`expo ~54.0.36`) |
-| UI nativa | React Native | 0.81.5 |
-| UI | React | 19.1.0 |
-| Lenguaje | TypeScript | strict |
-| Navegación | Expo Router (file-based) | ~6.0.24 |
-| Estado de negocio | Zustand | ^5.0.15 |
-| Imágenes | expo-image | ~3.0.11 |
-| Video | expo-video | ~3.0.16 |
-| Animación | react-native-reanimated | ~4.1.1 |
-| Pruebas | Jest + jest-expo + Testing Library | Jest 29 |
+| Capa              | Tecnología                         | Versión de referencia    |
+| :---------------- | :--------------------------------- | :----------------------- |
+| Runtime           | Expo                               | SDK 54 (`expo ~54.0.36`) |
+| UI nativa         | React Native                       | 0.81.5                   |
+| UI                | React                              | 19.1.0                   |
+| Lenguaje          | TypeScript                         | strict                   |
+| Navegación        | Expo Router (file-based)           | ~6.0.24                  |
+| Estado de negocio | Zustand                            | ^5.0.15                  |
+| Imágenes          | expo-image                         | ~3.0.11                  |
+| Video             | expo-video                         | ~3.0.16                  |
+| Animación         | react-native-reanimated            | ~4.1.1                   |
+| Pruebas           | Jest + jest-expo + Testing Library | Jest 29                  |
 
 New Architecture está activa (`newArchEnabled`). Las rutas tipadas y React Compiler están habilitados en `app.json`.
 
@@ -155,12 +155,12 @@ El alias `@/` apunta a la raíz del repo (`tsconfig.json`).
 
 No hay Redux ni React Query en el runtime. El estado se parte en tres niveles, cada uno con un motivo distinto.
 
-| Nivel | Dónde vive | Qué guarda | Ciclo de vida |
-| :--- | :--- | :--- | :--- |
-| Datos de dominio mock | `constants/accounts.ts` | Usuario, cuenta, saldo, origen | Estático. No se muta. |
-| Borrador de transferencia | `store/transfer-store.ts` (Zustand) | Destino, monto, origen, marca de completado | En memoria. `saveDraft` valida cuenta y saldo antes de escribir. `reset` al abrir el flujo desde Inicio. |
-| Transición de éxito | `features/transfer/success-transition/success-transition-store.ts` (Zustand) | Si la animación corre, ids de corrida, geometría del check y del título | En memoria, acotado al stack de `/transfer`. El overlay vive en `app/transfer/_layout.tsx` para sobrevivir el `router.push` a éxito. |
-| Campos del formulario | `useState` en `TransferFormScreen` | Texto de cuenta y monto mientras se edita | Local al screen. Se hidrata desde el draft si el usuario vuelve atrás. |
+| Nivel                     | Dónde vive                                                                   | Qué guarda                                                              | Ciclo de vida                                                                                                                        |
+| :------------------------ | :--------------------------------------------------------------------------- | :---------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| Datos de dominio mock     | `constants/accounts.ts`                                                      | Usuario, cuenta, saldo, origen                                          | Estático. No se muta.                                                                                                                |
+| Borrador de transferencia | `store/transfer-store.ts` (Zustand)                                          | Destino, monto, origen, marca de completado                             | En memoria. `saveDraft` valida cuenta y saldo antes de escribir. `reset` al abrir el flujo desde Inicio.                             |
+| Transición de éxito       | `features/transfer/success-transition/success-transition-store.ts` (Zustand) | Si la animación corre, ids de corrida, geometría del check y del título | En memoria, acotado al stack de `/transfer`. El overlay vive en `app/transfer/_layout.tsx` para sobrevivir el `router.push` a éxito. |
+| Campos del formulario     | `useState` en `TransferFormScreen`                                           | Texto de cuenta y monto mientras se edita                               | Local al screen. Se hidrata desde el draft si el usuario vuelve atrás.                                                               |
 
 Reglas que el store de transferencia no deja pasar: cuenta vacía o no numérica, monto menor o igual a cero, monto mayor al saldo (`SAVINGS_ACCOUNT.balance`). La misma regla se aplica en UI (`utils/transfer.ts`, `utils/account-number.ts`, `utils/currency.ts`).
 
@@ -206,7 +206,7 @@ coming-soon              /coming-soon
 
 No hay suite E2E. La verificación del flujo visual se hace en Expo Go o en Chrome con el simulador.
 
-## Cierre de la prueba y trabajo pendiente
+## Cierre de la prueba y trabajo que me hubiese gustado agregar
 
 La entrega funcional la cerre el **sábado 5 de septiembre de 2026**. Lo que está en este repositorio es lo que alcanzó el tiempo de la prueba tomando en cuenta el tiemponde entrega que fue el sabado: flujo de transferencia completo, inicio con operaciones rápidas y pantalla de «próximamente» para el resto.
 
